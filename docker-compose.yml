@@ -1,0 +1,7 @@
+services:
+    be_assignment:
+        build: .
+        volumes:
+            - ./input:/BE_Assignment/input
+            - ./src:/BE_Assignment/src
+            - ./output:/BE_Assignment/output     

@@ -2,7 +2,7 @@ from helper import *
 
 # Question 1
 # Write a script to extract all text and images from the provided PDF/DOCX. Ensure that all images are saved to the disk.
-def extractFileContent(file_path, output_folder="./output"):
+def extractFileContent(file_path, output_folder="../output"):
     try:
         # check type of file
         check_file_type = checkFileType(file_path, ["pdf", "docx"])
@@ -42,6 +42,8 @@ def extractFileContent(file_path, output_folder="./output"):
     except Exception as err:
         print("Opp! File processing failed")
         print(err)
-        
-extractFileContent("./input/pdf_mock_file.pdf")
-extractFileContent("./input/docx_mock_file.docx")
+
+
+# Test case       
+extractFileContent("../input/pdf_mock_file.pdf")
+extractFileContent("../input/docx_mock_file.docx")

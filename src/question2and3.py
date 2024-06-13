@@ -2,7 +2,7 @@ from helper import *
 
 # Question 2
 # For each paragraph in the PDF/DOCX, extract the following details: Text content, Font type, Font size, Styling elements, Text color
-def extractTextDetail(file_path, output_folder="./output"):
+def extractTextDetail(file_path, output_folder="../output"):
     try:
         # check type of file
         check_file_type = checkFileType(file_path, ["pdf", "docx"])
@@ -26,7 +26,7 @@ def extractTextDetail(file_path, output_folder="./output"):
             for block in blocks:
                 temp_dict_detail = {}
                 for line in block["lines"]:  # iterate through the text lines
-                    for span in line["spans"]:  # iterate through the text spans
+                    for span in line["spans"]:  # iterate through the text spans and get text information
                         if len(temp_dict_detail.keys()) == 0: 
                             temp_dict_detail["text"] = span["text"]
                             temp_dict_detail["font"] = span["font"]
@@ -59,6 +59,8 @@ def extractTextDetail(file_path, output_folder="./output"):
                         extract_dict[block["number"]] += [temp_dict_detail]
                     else:
                         extract_dict[block["number"]] = [temp_dict_detail]
+                    
+                    # write text into output file
                     text_out.write(result.encode("utf8"))
                     count += 1
                     
@@ -83,6 +85,7 @@ def convertTextToUpperCase(extracted_paragraphs, file_name, output_folder):
         page = doc.new_page()  # new or existing page via doc[n]
         for paragraphs in blocks.values():
             for paragraph in paragraphs:
+                # create text in html format
                 paragraph_content = f"""
                     <span style="font-family: {paragraph['font']}, {paragraph['style']}; color: {paragraph['color']}; font-size: {round(paragraph['size'])}px;">{paragraph['text'].upper()}</span>
                 """
@@ -96,5 +99,7 @@ def convertTextToUpperCase(extracted_paragraphs, file_name, output_folder):
     
     doc.save(text_file)
     
-extractTextDetail("./input/pdf_mock_file.pdf")
-extractTextDetail("./input/docx_mock_file.docx")
+
+# Test case  
+extractTextDetail("../input/pdf_mock_file.pdf")
+extractTextDetail("../input/docx_mock_file.docx")

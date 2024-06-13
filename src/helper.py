@@ -4,6 +4,7 @@ from deep_translator import GoogleTranslator
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 
+# checker whether type of file is valid
 def checkFileType(file_path, file_types):
     file_paths = file_path.split('/')
     file_fullname = file_paths[-1]
@@ -30,8 +31,8 @@ def checkOutputNameExisted(output_name, output_folder="./output"):
 
     return file_name
 
+# make font flags human readable.
 def flags_decomposer(flags):
-    """Make font flags human readable."""
     l = []
     if flags & 2 ** 0:
         l.append("superscript")

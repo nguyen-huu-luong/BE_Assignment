@@ -4,7 +4,7 @@ from helper import *
 # Write a script to extract all text and images from the provided PPTX and then translate all the
 # text in file to English and then append the translated text under the original text back in
 # slides, please try to keep the font size as reasonable as possible.    
-def extractContentAndTranslate(file_path, output_folder="./output"):
+def extractContentAndTranslate(file_path, output_folder="../output"):
     try:
         # check type of file
         check_file_type = checkFileType(file_path, ["pptx"])
@@ -25,7 +25,7 @@ def extractContentAndTranslate(file_path, output_folder="./output"):
         for slide in prs.slides:
             image_index = 1
             for shape in slide.shapes:
-                if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                if shape.shape_type == MSO_SHAPE_TYPE.PICTURE: # if shape is image
                     image = shape.image
                     image_bytes = image.blob
                     # ---make up a name for the file, e.g. 'image.png'---
@@ -33,7 +33,7 @@ def extractContentAndTranslate(file_path, output_folder="./output"):
                     with open(image_filename, 'wb') as f:
                         f.write(image_bytes)
                     image_index += 1
-                elif hasattr(shape, "text"):
+                elif hasattr(shape, "text"): # if shape is text
                     new_text = f"\n{text_count}.\n" + f"- Original text:\n{shape.text}" + f"\n- Translated text:\n{GoogleTranslator(source='auto', target='en').translate(shape.text)}"
                     text_out.write(new_text.encode("utf8"))
                     text_count += 1
@@ -45,4 +45,6 @@ def extractContentAndTranslate(file_path, output_folder="./output"):
         print("Opp! File processing failed")
         print(err)
 
-extractContentAndTranslate("./input/Networking.pptx")
+
+# Test case  
+extractContentAndTranslate("../input/Networking.pptx")
